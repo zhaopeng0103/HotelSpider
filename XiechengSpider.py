@@ -2,43 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 import bs4
 import xlsxwriter
-from urllib import parse,request
-import json
-
-
-def getAjaxResponse():
-    textmod = {
-        "__VIEWSTATEGENERATOR":"DB1FBB6D", "cityName":"北京", "StartTime":"2018-01-15", "DepTime":"2018-01-16",
-        "txtkeyword":"", "Resource":"", "Room":"", "Paymentterm":"", "BRev":"", "Minstate":"", "PromoteType":"",
-        "PromoteDate":"", "operationtype":"NEWHOTELORDER", "PromoteStartDate":"", "PromoteEndDate":"",
-        "OrderID":"RoomNum", "IsOnlyAirHotel":"F", "cityId":"1", "cityPY":"beijing", "cityCode":"010",
-        "cityLat":"39.9105329229", "cityLng":"116.413784021", "positionArea":"", "positionId":"", "hotelposition":"",
-        "keyword":"", "hotelId":"", "htlPageView":"0", "hotelType":"F", "hasPKGHotel":"F", "requestTravelMoney":"F",
-        "isusergiftcard":"F", "":"", "":"", "":"", "":"", "":"",
-        "":"", "":"", "":"", "":"",
-        "":"",
-
-    }
-    textmod = "=F&useFG=F&HotelEquipment=&priceRange=-2&hotelBrandId=&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&OrderType=&k1=&k2=&CorpPayType=&viewType=&checkIn=2018-01-15&checkOut=2018-01-16&DealSale=&ulogin=&hidTestLat=0%257C0&AllHotelIds=691682%252C375265%252C608345%252C375126%252C2298288%252C436894%252C452197%252C1641390%252C1722447%252C1249518%252C1725911%252C431617%252C1836257%252C456474%252C433114%252C4035013%252C6684925%252C5226364%252C2703098%252C9627725%252C5389632%252C452221%252C2642089%252C436066%252C1251776&psid=&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&showwindow=&defaultcoupon=&isHuaZhu=False&hotelPriceLow=&htlFrom=hotellist&unBookHotelTraceCode=&showTipFlg=&hotelIds=691682_1_1%2C375265_2_1%2C608345_3_1%2C375126_4_1%2C2298288_5_1%2C436894_6_1%2C452197_7_1%2C1641390_8_1%2C1722447_9_1%2C1249518_10_1%2C1725911_11_1%2C431617_12_1%2C1836257_13_1%2C456474_14_1%2C433114_15_1%2C4035013_16_1%2C6684925_17_1%2C5226364_18_1%2C2703098_19_1%2C9627725_20_1%2C5389632_21_1%2C452221_22_1%2C2642089_23_1%2C436066_24_1%2C1251776_25_1&markType=0&zone=&location=&type=&brand=&group=&feature=&equip=&star=&sl=&s=&l=&price=&a=0&keywordLat=&keywordLon=&contrast=0&contyped=0&productcode=&page=1"
-    # 普通数据使用
-    textmod = parse.urlencode(textmod).encode(encoding='utf-8')
-    print(textmod)
-    # header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko',
-    #                "Content-Type": "application/json"}
-    # url = 'http://192.168.199.10/api_jsonrpc.php'
-    # req = request.Request(url=url, data=textmod, headers=header_dict)
-    # res = request.urlopen(req)
-    # res = res.read()
 
 
 def getHTMLText(url):
     try:
-        r = requests.get(url, timeout=30)
+        r = requests.post(url, timeout=30)
         r.raise_for_status()
         r.encoding = r.apparent_encoding
-        return r.text
+        return r.json()
     except:
-        return "抓取失败"
+        return "请求失败"
 
 
 def fillUnivList(ulist, html):
@@ -68,7 +41,10 @@ def exportExcel(data):
 
 
 if __name__ == "__main__":
-    getAjaxResponse()
-    # data = []
+    url = "http://hotels.ctrip.com/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=北京&StartTime=2018-01-15&DepTime=2018-01-16&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=1&cityPY=beijing&cityCode=010&cityLat=39.9105329229&cityLng=116.413784021&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-01-17&checkOut=2018-01-18&hidTestLat=0|0&AllHotelIds=691682,375265,608345,375126,2298288,436894,452197,1641390,1722447,1249518,1725911,431617,1836257,456474,433114,4035013,6684925,5226364,2703098,9627725,5389632,452221,2642089,436066,1251776&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=691682_1_1,375265_2_1,608345_3_1,375126_4_1,2298288_5_1,436894_6_1,452197_7_1,1641390_8_1,1722447_9_1,1249518_10_1,1725911_11_1,431617_12_1,1836257_13_1,456474_14_1,433114_15_1,4035013_16_1,6684925_17_1,5226364_18_1,2703098_19_1,9627725_20_1,5389632_21_1,452221_22_1,2642089_23_1,436066_24_1,1251776_25_1&markType=0&a=0&contrast=0&contyped=0&page=1"
+    jsonResult = getHTMLText(url)
+    for hotel_url in jsonResult["hotelPositionJSON"]:
+        print("id:" + hotel_url["id"] + ";name:" + hotel_url["name"] + ";url:" + hotel_url["url"])
+
 
     # exportExcel(data)
