@@ -16,13 +16,14 @@ def getHTMLTEXT(url):
 def getHotelListHref(hotelListHref, html):
     soup = BeautifulSoup(html, "html.parser")
     print(soup.find("ol", attrs={"class": "hotel-list-container"}))
-    for aLink in soup.find_all('ol', attrs={"class" : ""}):
+    for aLink in soup.find_all('ol', attrs={"class": ""}):
         hotelListHref.append(aLink.attrs['class'])
+
 
 if __name__ == "__main__":
     hotelListHref = []
     baseURL = "https://www.agoda.com"
-    hotelListURL = baseURL + "/zh-cn/pages/agoda/default/DestinationSearchResult.aspx?city=1569&languageId=8&userId=fd38c7b4-8fc5-498e-ae4b-57dbb540012c&pageTypeId=1&origin=CN&locale=zh-CN&cid=1463261&tag=1f8e8af2086447e491ea69277d0290da3741&aid=97720&currencyCode=CNY&htmlLanguage=zh-cn&cultureInfoName=zh-CN&ckuid=fd38c7b4-8fc5-498e-ae4b-57dbb540012c&checkIn=2018-02-14&checkOut=2018-02-15&rooms=1&adults=2&children=0&hotelReviewScore=5&tabId=5&priceCur=CNY&los=1&textToSearch=%E5%8C%97%E4%BA%AC"
+    hotelListURL = baseURL + "/zh-cn/pages/agoda/default/DestinationSearchResult.aspx?city=1569&pagetypeid=1&origin=CN&cid=-1&tag=&gclid=&aid=130243&userId=7d4d75ba-28cf-4f41-9957-f0a0e27e964f&loginLvl=0&languageId=8&languageFlag=cn&storefrontId=3&currencyId=15&currencyCode=CNY&htmlLanguage=zh-cn&trafficType=User&cultureInfoName=zh-CN&checkIn=2018-02-17&checkOut=2018-02-18&los=1&rooms=1&adults=2&children=0&childages=&priceCur=CNY&hotelReviewScore=5&ckuid=7d4d75ba-28cf-4f41-9957-f0a0e27e964f"
     hotelListHTML = getHTMLTEXT(hotelListURL)
     getHotelListHref(hotelListHref, hotelListHTML)
     print(hotelListHref)
