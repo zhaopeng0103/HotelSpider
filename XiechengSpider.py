@@ -87,29 +87,35 @@ def praseHTMLTEXT(id, name, hotelInfo, url):
 
 def exportExcel(data):
     workbook = xlsxwriter.Workbook('xiecheng.xlsx')
+    style1 = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter', 'bold': True, 'fg_color': '#10aeff'})
+    style2 = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter'})
     worksheet1 = workbook.add_worksheet()
-    worksheet1.merge_range(0, 0, 1, 0, "id")
-    worksheet1.merge_range(0, 1, 1, 1, "酒店名字")
-    worksheet1.merge_range(0, 2, 1, 2, "酒店分类")
-    worksheet1.merge_range(0, 3, 1, 3, "酒店位置")
-    worksheet1.merge_range(0, 4, 0, 10, "住客印象")
-    worksheet1.merge_range(0, 11, 0, 15, "住客点评")
-    worksheet1.merge_range(0, 16, 1, 16, "URL")
-    worksheet1.write(1, 4, "性价比")
-    worksheet1.write(1, 5, "服务")
-    worksheet1.write(1, 6, "交通")
-    worksheet1.write(1, 7, "设施")
-    worksheet1.write(1, 8, "房间")
-    worksheet1.write(1, 9, "房间")
-    worksheet1.write(1, 10, "评论")
-    worksheet1.write(1, 11, "总分")
-    worksheet1.write(1, 12, "位置")
-    worksheet1.write(1, 13, "设施")
-    worksheet1.write(1, 14, "服务")
-    worksheet1.write(1, 15, "卫生")
+    worksheet1.set_column('B:B', 30)
+    worksheet1.set_column('D:D', 40)
+    worksheet1.set_column('K:K', 100)
+    worksheet1.set_column('Q:Q', 100)
+    worksheet1.merge_range(0, 0, 1, 0, "id", style1)
+    worksheet1.merge_range(0, 1, 1, 1, "酒店名字", style1)
+    worksheet1.merge_range(0, 2, 1, 2, "酒店分类", style1)
+    worksheet1.merge_range(0, 3, 1, 3, "酒店位置", style1)
+    worksheet1.merge_range(0, 4, 0, 10, "住客印象", style1)
+    worksheet1.merge_range(0, 11, 0, 15, "住客点评", style1)
+    worksheet1.merge_range(0, 16, 1, 16, "URL", style1)
+    worksheet1.write(1, 4, "性价比", style1)
+    worksheet1.write(1, 5, "服务", style1)
+    worksheet1.write(1, 6, "交通", style1)
+    worksheet1.write(1, 7, "设施", style1)
+    worksheet1.write(1, 8, "房间", style1)
+    worksheet1.write(1, 9, "房间", style1)
+    worksheet1.write(1, 10, "评论", style1)
+    worksheet1.write(1, 11, "总分", style1)
+    worksheet1.write(1, 12, "位置", style1)
+    worksheet1.write(1, 13, "设施", style1)
+    worksheet1.write(1, 14, "服务", style1)
+    worksheet1.write(1, 15, "卫生", style1)
     for row in range(len(data)):
         for col in range(len(data[row])):
-            worksheet1.write(row + 2, col, data[row][col])
+            worksheet1.write(row + 2, col, data[row][col], style2)
     workbook.close()
     print("write over!")
 
@@ -119,7 +125,7 @@ if __name__ == "__main__":
     baseURL = "http://hotels.ctrip.com"
     datas = []
     for p in range(page):
-        hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=北京&StartTime=2018-02-15&DepTime=2018-02-16&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=1&cityPY=beijing&cityCode=010&cityLat=39.9105329229&cityLng=116.413784021&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-01-17&checkOut=2018-01-18&hidTestLat=0|0&AllHotelIds=691682,375265,608345,375126,2298288,436894,452197,1641390,1722447,1249518,1725911,431617,1836257,456474,433114,4035013,6684925,5226364,2703098,9627725,5389632,452221,2642089,436066,1251776&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=691682_1_1,375265_2_1,608345_3_1,375126_4_1,2298288_5_1,436894_6_1,452197_7_1,1641390_8_1,1722447_9_1,1249518_10_1,1725911_11_1,431617_12_1,1836257_13_1,456474_14_1,433114_15_1,4035013_16_1,6684925_17_1,5226364_18_1,2703098_19_1,9627725_20_1,5389632_21_1,452221_22_1,2642089_23_1,436066_24_1,1251776_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
+        hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=北京&StartTime=2018-02-11&DepTime=2018-02-12&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=1&cityPY=beijing&cityCode=010&cityLat=39.9105329229&cityLng=116.413784021&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-01-17&checkOut=2018-01-18&hidTestLat=0|0&AllHotelIds=691682,375265,608345,375126,2298288,436894,452197,1641390,1722447,1249518,1725911,431617,1836257,456474,433114,4035013,6684925,5226364,2703098,9627725,5389632,452221,2642089,436066,1251776&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=691682_1_1,375265_2_1,608345_3_1,375126_4_1,2298288_5_1,436894_6_1,452197_7_1,1641390_8_1,1722447_9_1,1249518_10_1,1725911_11_1,431617_12_1,1836257_13_1,456474_14_1,433114_15_1,4035013_16_1,6684925_17_1,5226364_18_1,2703098_19_1,9627725_20_1,5389632_21_1,452221_22_1,2642089_23_1,436066_24_1,1251776_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
         hotelList = getPOSTJSON(hotelListURL)
         for hotel_list in hotelList["hotelPositionJSON"]:
             id = hotel_list["id"]
@@ -131,5 +137,5 @@ if __name__ == "__main__":
             except:
                 continue
             datas.append(data)
-    print(len(datas))
+    print("total data number:" + str(len(datas)))
     exportExcel(datas)
