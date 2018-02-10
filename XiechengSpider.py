@@ -131,9 +131,9 @@ def exportExcel(data, workbook, style1, style2):
 
 
 if __name__ == "__main__":
-    name = 'xiecheng_chongqing.xlsx'
+    name = 'xiecheng_shenzhen.xlsx'
     workbook, style1, style2 = createWorkbook(name)
-    page = 100
+    page = 70
     baseURL = "http://hotels.ctrip.com"
     datas = []
     for p in range(page):
@@ -142,7 +142,7 @@ if __name__ == "__main__":
             print("Program will sleep for " + str(second) + " seconds! current data num:" + str(len(datas)))
             time.sleep(second)
         try:
-            hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=重庆&StartTime=2018-02-11&DepTime=2018-02-12&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=4&cityPY=chongqing&cityCode=023&cityLat=29.5693030786&cityLng=106.5579918074&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-02-11&checkOut=2018-02-12&hidTestLat=0|0&AllHotelIds=6238298%2C1451725%2C2295624%2C8020262%2C6125078%2C5435182%2C987806%2C5240070%2C1578513%2C542693%2C2638694%2C6424389%2C11448553%2C5256381%2C967705%2C14154010%2C3484522%2C446084%2C445411%2C532149%2C1586524%2C4614140%2C840811%2C8063593%2C13982827&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=6238298_1_1,1451725_2_1,2295624_3_1,8020262_4_1,6125078_5_1,5435182_6_1,987806_7_1,5240070_8_1,1578513_9_1,542693_10_1,2638694_11_1,6424389_12_1,11448553_13_1,5256381_14_1,967705_15_1,14154010_16_1,3484522_17_1,446084_18_1,445411_19_1,532149_20_1,1586524_21_1,4614140_22_1,840811_23_1,8063593_24_1,13982827_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
+            hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=深圳&StartTime=2018-02-12&DepTime=2018-02-13&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=30&cityPY=shenzhen&cityCode=0755&cityLat=22.5487559551&cityLng=114.0644200241&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-02-12&checkOut=2018-02-13&hidTestLat=0|0&AllHotelIds=5404640%2C6461667%2C5860925%2C457399%2C450229%2C7588938%2C6469756%2C2247932%2C654875%2C533870%2C420082%2C474461%2C2765033%2C12135159%2C6636949%2C602653%2C5153544%2C14154841%2C5215105%2C433471%2C419559%2C533687%2C971156%2C6483350%2C1380744&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=5404640_1_1,6461667_2_1,5860925_3_1,457399_4_1,450229_5_1,7588938_6_1,6469756_7_1,2247932_8_1,654875_9_1,533870_10_1,420082_11_1,474461_12_1,2765033_13_1,12135159_14_1,6636949_15_1,602653_16_1,5153544_17_1,14154841_18_1,5215105_19_1,433471_20_1,419559_21_1,533687_22_1,971156_23_1,6483350_24_1,1380744_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
             hotelList = getPOSTJSON(hotelListURL)
             for hotel_list in hotelList["hotelPositionJSON"]:
                 id = hotel_list["id"]
