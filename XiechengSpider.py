@@ -92,10 +92,13 @@ def praseHTMLTEXT(id, name, hotelInfo, url):
     return data
 
 
-def exportExcel(data):
-    workbook = xlsxwriter.Workbook('xiecheng_beijing.xlsx')
+def createWorkbook(name):
+    workbook = xlsxwriter.Workbook(name)
     style1 = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter', 'bold': True, 'fg_color': '#10aeff'})
     style2 = workbook.add_format({'border': 1, 'align': 'center', 'valign': 'vcenter'})
+    return workbook, style1, style2
+
+def exportExcel(data, workbook, style1, style2):
     worksheet1 = workbook.add_worksheet()
     worksheet1.set_column('B:B', 30)
     worksheet1.set_column('D:D', 40)
@@ -128,6 +131,8 @@ def exportExcel(data):
 
 
 if __name__ == "__main__":
+    name = 'xiecheng_chongqing.xlsx'
+    workbook, style1, style2 = createWorkbook(name)
     page = 100
     baseURL = "http://hotels.ctrip.com"
     datas = []
@@ -137,16 +142,21 @@ if __name__ == "__main__":
             print("Program will sleep for " + str(second) + " seconds! current data num:" + str(len(datas)))
             time.sleep(second)
         try:
-            hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=北京&StartTime=2018-02-09&DepTime=2018-02-10&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=1&cityPY=beijing&cityCode=010&cityLat=39.9105329229&cityLng=116.413784021&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-01-17&checkOut=2018-01-18&hidTestLat=0|0&AllHotelIds=691682,375265,608345,375126,2298288,436894,452197,1641390,1722447,1249518,1725911,431617,1836257,456474,433114,4035013,6684925,5226364,2703098,9627725,5389632,452221,2642089,436066,1251776&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=691682_1_1,375265_2_1,608345_3_1,375126_4_1,2298288_5_1,436894_6_1,452197_7_1,1641390_8_1,1722447_9_1,1249518_10_1,1725911_11_1,431617_12_1,1836257_13_1,456474_14_1,433114_15_1,4035013_16_1,6684925_17_1,5226364_18_1,2703098_19_1,9627725_20_1,5389632_21_1,452221_22_1,2642089_23_1,436066_24_1,1251776_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
+            hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=重庆&StartTime=2018-02-11&DepTime=2018-02-12&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=4&cityPY=chongqing&cityCode=023&cityLat=29.5693030786&cityLng=106.5579918074&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-02-11&checkOut=2018-02-12&hidTestLat=0|0&AllHotelIds=6238298%2C1451725%2C2295624%2C8020262%2C6125078%2C5435182%2C987806%2C5240070%2C1578513%2C542693%2C2638694%2C6424389%2C11448553%2C5256381%2C967705%2C14154010%2C3484522%2C446084%2C445411%2C532149%2C1586524%2C4614140%2C840811%2C8063593%2C13982827&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=6238298_1_1,1451725_2_1,2295624_3_1,8020262_4_1,6125078_5_1,5435182_6_1,987806_7_1,5240070_8_1,1578513_9_1,542693_10_1,2638694_11_1,6424389_12_1,11448553_13_1,5256381_14_1,967705_15_1,14154010_16_1,3484522_17_1,446084_18_1,445411_19_1,532149_20_1,1586524_21_1,4614140_22_1,840811_23_1,8063593_24_1,13982827_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
             hotelList = getPOSTJSON(hotelListURL)
             for hotel_list in hotelList["hotelPositionJSON"]:
                 id = hotel_list["id"]
                 name = hotel_list["name"]
                 hotelInfoURL = baseURL + hotel_list["url"]
                 hotelInfo = getHTMLTEXT(hotelInfoURL)
-                data = praseHTMLTEXT(id, name, hotelInfo, hotelInfoURL)
-                datas.append(data)
+                try:
+                    data = praseHTMLTEXT(id, name, hotelInfo, hotelInfoURL)
+                    datas.append(data)
+                except:
+                    print("error:子程序异常")
+                    continue
         except:
+            print("error:主程序异常")
             continue
     print("total data number:" + str(len(datas)))
-    exportExcel(datas)
+    exportExcel(datas, workbook, style1, style2)
