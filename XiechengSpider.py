@@ -131,18 +131,18 @@ def exportExcel(data, workbook, style1, style2):
 
 
 if __name__ == "__main__":
-    name = 'xiecheng_shenzhen.xlsx'
+    name = 'xiecheng_xianggang.xlsx'
     workbook, style1, style2 = createWorkbook(name)
-    page = 70
+    page = 50
     baseURL = "http://hotels.ctrip.com"
     datas = []
     for p in range(page):
         if (p + 1) % 5 == 0:
             second = produceRandomInt(15, 30)
-            print("Program will sleep for " + str(second) + " seconds! current data num:" + str(len(datas)))
+            print("Program will sleep for " + str(second) + " seconds! current page:" + str(p + 1) + ";current data num:" + str(len(datas)))
             time.sleep(second)
         try:
-            hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=深圳&StartTime=2018-02-12&DepTime=2018-02-13&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=30&cityPY=shenzhen&cityCode=0755&cityLat=22.5487559551&cityLng=114.0644200241&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-02-12&checkOut=2018-02-13&hidTestLat=0|0&AllHotelIds=5404640%2C6461667%2C5860925%2C457399%2C450229%2C7588938%2C6469756%2C2247932%2C654875%2C533870%2C420082%2C474461%2C2765033%2C12135159%2C6636949%2C602653%2C5153544%2C14154841%2C5215105%2C433471%2C419559%2C533687%2C971156%2C6483350%2C1380744&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=5404640_1_1,6461667_2_1,5860925_3_1,457399_4_1,450229_5_1,7588938_6_1,6469756_7_1,2247932_8_1,654875_9_1,533870_10_1,420082_11_1,474461_12_1,2765033_13_1,12135159_14_1,6636949_15_1,602653_16_1,5153544_17_1,14154841_18_1,5215105_19_1,433471_20_1,419559_21_1,533687_22_1,971156_23_1,6483350_24_1,1380744_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
+            hotelListURL = baseURL + "/Domestic/Tool/AjaxHotelList.aspx?__VIEWSTATEGENERATOR=DB1FBB6D&cityName=香港&StartTime=2018-02-12&DepTime=2018-02-13&operationtype=NEWHOTELORDER&IsOnlyAirHotel=F&cityId=58&cityPY=xianggang&cityCode=1852&cityLat=22.291&cityLng=114.172&htlPageView=0&hotelType=F&hasPKGHotel=F&requestTravelMoney=F&isusergiftcard=F&useFG=F&priceRange=-2&promotion=F&prepay=F&IsCanReserve=F&OrderBy=99&checkIn=2018-02-12&checkOut=2018-02-13&hidTestLat=0|0&AllHotelIds=6023614%2C426549%2C426593%2C426551%2C436835%2C344922%2C436515%2C436846%2C419933%2C2387600%2C436870%2C1830031%2C532864%2C371391%2C481133%2C778134%2C11018959%2C436874%2C708765%2C5500588%2C392670%2C2037118%2C436850%2C6555104%2C2198346&HideIsNoneLogin=T&isfromlist=T&ubt_price_key=htl_search_result_promotion&isHuaZhu=False&htlFrom=hotellist&hotelIds=6023614_1_1,426549_2_1,426593_3_1,426551_4_1,436835_5_1,344922_6_1,436515_7_1,436846_8_1,419933_9_1,2387600_10_1,436870_11_1,1830031_12_1,532864_13_1,371391_14_1,481133_15_1,778134_16_1,11018959_17_1,436874_18_1,708765_19_1,5500588_20_1,392670_21_1,2037118_22_1,436850_23_1,6555104_24_1,2198346_25_1&markType=0&a=0&contrast=0&contyped=0&page=" + str(p + 1)
             hotelList = getPOSTJSON(hotelListURL)
             for hotel_list in hotelList["hotelPositionJSON"]:
                 id = hotel_list["id"]
